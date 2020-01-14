@@ -132,7 +132,9 @@ define_property(GLOBAL PROPERTY PX4_MODULE_PATHS
 # configuration
 #
 
-set(CONFIG "px4_sitl_default" CACHE STRING "desired configuration")
+#set(CONFIG "px4_sitl_default" CACHE STRING "desired configuration")
+set(CONFIG "px4_fmu-v5_default" CACHE STRING "desired configuration")
+#set(DCONFIG "px4_fmu-v5_default" CACHE STR)
 
 include(px4_add_module)
 set(config_module_list)
@@ -381,6 +383,14 @@ foreach(driver ${config_df_driver_list})
 	list(APPEND df_driver_libs df_${driver})
 	message("Adding DF driver: ${driver}")
 endforeach()
+#=========================================
+#including libtorch
+add_subdirectory(src/lib/libtorch)
+set(Torch_DIR "src/lib/libtorch/share/cmake/Torch")
+set(CMAKE_THREAD_LIBS_INIT "-lpthread")
+find_package(Torch REQUIRED)
+#set(CMAKE_CXX_FLAGS "${TORCH_CXX_FLAGS}")
+#=========================================
 
 #=============================================================================
 # external projects
